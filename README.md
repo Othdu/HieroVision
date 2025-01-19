@@ -1,16 +1,44 @@
-# masr
+# HieroVision
 
-A new Flutter project.
+A Flutter application for detecting and classifying hieroglyphic symbols in images.
+
+## Features
+
+- Image preprocessing and symbol detection
+- Feature extraction using TensorFlow Lite
+- Symbol classification and matching
+- Real-time processing capabilities
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a Flutter application that uses:
+- TensorFlow Lite for inference
+- Image processing for symbol detection
+- Feature matching for classification
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter SDK
+- TensorFlow Lite
+- Android Studio or VS Code
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Othdu/HieroVision.git
+```
+
+2. Install dependencies:
+```bash
+flutter pub get
+```
+
+3. Run the app:
+```bash
+flutter run
+```
+
+## License
+
+This project is licensed under the MIT License.
