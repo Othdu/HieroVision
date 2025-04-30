@@ -7,10 +7,16 @@ import 'screens/splash_screen.dart';
 import 'l10n/app_localizations.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  final String languageCode = prefs.getString('language') ?? 'en';
-  runApp(MyApp(initialLocale: Locale(languageCode)));
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    final prefs = await SharedPreferences.getInstance();
+    final String languageCode = prefs.getString('language') ?? 'en';
+    runApp(MyApp(initialLocale: Locale(languageCode)));
+  } catch (e) {
+    debugPrint('Error initializing app: $e');
+    // Fallback to default locale if there's an error
+    runApp(const MyApp(initialLocale: Locale('en')));
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -39,31 +45,50 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HieroVision',
-      debugShowCheckedModeBanner: false,
-      locale: _locale,
-      supportedLocales: const [
-        Locale('en'),
-        Locale('es'),
-        Locale('ar'),
-        Locale('fr'),
-        Locale('nl'),
-      ],
-      localizationsDelegates: const [
-        AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6B4423),
-          brightness: Brightness.light,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HieroglyphicBloc>(
+          create: (context) => HieroglyphicBloc(),
         ),
-        useMaterial3: true,
+      ],
+      child: MaterialApp(
+        title: 'HieroVision',
+        debugShowCheckedModeBanner: false,
+        locale: _locale,
+        supportedLocales: const [
+          Locale('en'),
+          Locale('es'),
+          Locale('ar'),
+          Locale('fr'),
+          Locale('nl'),
+        ],
+        localizationsDelegates: const [
+          AppLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF6B4423),
+            brightness: Brightness.light,
+          ),
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            centerTitle: true,
+            elevation: 0,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }
